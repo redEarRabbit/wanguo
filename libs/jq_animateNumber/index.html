@@ -1,0 +1,448 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>jq数字动画插件-jquery.animateNumber–懒人建站http://www.51xuediannao.com/</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <script type='text/javascript' src='http://upcdn.b0.upaiyun.com/libs/jquery/jquery-1.7.0.min.js'></script>
+    <script src="jquery.color.min.js"></script>
+    <script src="jquery.animateNumber.js"></script>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <h1>jq数字动画插件-jquery.animateNumber–懒人建站http://www.51xuediannao.com/</h1>
+        <p>jquery.color.min.js并不是必须的，您可以删除，Example 3演示了使用jquery.color.min.js来达到数字由红到绿的变色</p>
+        <ul style="margin-bottom: 50px;">
+            <li><a href="https://github.com/aishek/jquery-animateNumber/zipball/master">Download <strong>ZIP File</strong></a></li>
+            <li><a href="https://github.com/aishek/jquery-animateNumber/releases/tag/v0.0.13">Download <strong>v0.0.13</strong></a></li>
+            <li><a href="https://github.com/aishek/jquery-animateNumber">View On <strong>GitHub</strong></a></li>
+        </ul>
+    </header>
+    <section>
+        <h3><a name="example-1" class="anchor" href="#example-1"><span class="octicon octicon-link"></span></a>Example 1: 基础动画效果</h3>
+<pre><code>&lt;p&gt;This plugin only &lt;span id="lines"&gt;0&lt;/span&gt; lines of code.&lt;/p&gt;
+
+    $('#lines').animateNumber({ number: 165 });
+</code></pre>
+        <p>This plugin only <span id="lines">0</span> lines of code.</p>
+        <button id="lines-run" style="margin-bottom: 50px;">Run example</button>
+        <script type="text/javascript">
+            $('#lines-run').click(function(){
+                $('#lines').animateNumber({ number: 165 });
+                return false;
+            });
+        </script>
+
+        <h3><a name="example-2" class="anchor" href="#example-2"><span class="octicon octicon-link"></span></a>Example 2: 数字间显示分隔符</h3>
+<pre><code>&lt;p&gt;World population is &lt;span id="world-population"&gt;0&lt;/span&gt;.&lt;/p&gt;
+
+    var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
+    $('#world-population').animateNumber(
+    {
+    number: 7095217980,
+    numberStep: comma_separator_number_step
+    }
+    );
+</code></pre>
+        <p>World population is <span id="world-population">0</span>.</p>
+        <button id="world-population-run" style="margin-bottom: 50px;">Run example</button>
+        <script type="text/javascript">
+            $('#world-population-run').click(function(){
+                var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
+                $('#world-population').animateNumber(
+                        {
+                            number: 7095217980,
+                            numberStep: comma_separator_number_step
+                        }
+                );
+                return false;
+            });
+        </script>
+
+        <h3><a name="example-3" class="anchor" href="#example-3"><span class="octicon octicon-link"></span></a>Example 3: 使用多个属性控制动画</h3>
+<pre><code>&lt;p&gt;Fun level &lt;span id="fun-level" style="color: red;"&gt;0 %&lt;/span&gt;.&lt;/p&gt;
+
+    var percent_number_step = $.animateNumber.numberStepFactories.append(' %')
+    $('#fun-level').animateNumber(
+    {
+    number: 100,
+    color: 'green',
+    'font-size': '30px',
+
+    easing: 'easeInQuad',
+
+    numberStep: percent_number_step
+    },
+    15000
+    );
+</code></pre>
+        <p>Fun level <span id="fun-level" style="color: red;">0 %</span>.</p>
+        <button id="fun-level-run" style="margin-bottom: 50px;">Run example</button>
+        <script type="text/javascript">
+            $('#fun-level-run').click(function(){
+                var percent_number_step = $.animateNumber.numberStepFactories.append(' %')
+                $('#fun-level').animateNumber(
+                        {
+                            number: 100,
+                            color: 'green',
+                            'font-size': '30px',
+
+                            easing: 'easeInQuad',
+
+                            numberStep: percent_number_step
+                        },
+                        15000
+                );
+                return false;
+            });
+        </script>
+
+        <h3><a name="example-4" class="anchor" href="#example-4"><span class="octicon octicon-link"></span></a>Example 4: 自定义数字步阶处理方法（句柄）</h3>
+<pre><code>&lt;p&gt;Points per pixel &lt;span id="points"&gt;0&lt;/span&gt;.&lt;/p&gt;
+
+    $('#points').animateNumber(
+    {
+    number: 72,
+    numberStep: function(now, tween) {
+    var target = $(tween.elem);
+
+    target
+    .prop('number', now) // keep current prop value
+    .text(now);
+    },
+    'slow'
+    }
+    );
+</code></pre>
+        <p>Points per pixel <span id="points">0</span>.</p>
+        <button id="points-run" style="margin-bottom: 50px;">Run example</button>
+        <script type="text/javascript">
+            $('#points-run').click(function(){
+                $('#points').animateNumber(
+                        {
+                            number: 72,
+                            numberStep: function(now, tween) {
+                                var target = $(tween.elem);
+
+                                target
+                                        .prop('number', now) // keep current prop value
+                                        .text(now);
+                            }
+                        },
+                        'slow'
+                );
+                return false;
+            });
+        </script>
+
+        <h3><a name="example-5" class="anchor" href="#example-5"><span class="octicon octicon-link"></span></a>Example 5: 定义动画数字的开始数据，下面实例定义的是从10到100数据的变化</h3>
+<pre><code>&lt;p id="ten"&gt;From ten to hundred.&lt;/p&gt;
+
+    $('#ten')
+    .prop('number', 10)
+    .animateNumber(
+    {
+    number: 100
+    },
+    20000
+    );
+</code></pre>
+        <p id="ten">From ten to hundred.</p>
+        <button id="ten-run" style="margin-bottom: 50px;">Run example</button>
+        <script type="text/javascript">
+            $('#ten-run').click(function(){
+                $('#ten')
+                        .prop('number', 10)
+                        .animateNumber(
+                                {
+                                    number: 100
+                                },
+                                20000
+                        );
+                return false;
+            });
+        </script>
+
+        <h3><a name="example-6" class="anchor" href="#example-6"><span class="octicon octicon-link"></span></a>Example 6: 带小数位</h3>
+<pre><code>&lt;p id="decimals"&gt;From $0,00 to $5,00&lt;/p&gt;
+
+    // how many decimal places allows
+    var decimal_places = 2;
+    var decimal_factor = decimal_places === 0 ? 1 : Math.pow(10, decimal_places);
+
+    $('#decimals')
+    .animateNumber(
+    {
+    number: 5 * decimal_factor,
+
+    numberStep: function(now, tween) {
+    var floored_number = Math.floor(now) / decimal_factor,
+    target = $(tween.elem);
+
+    if (decimal_places > 0) {
+    // force decimal places even if they are 0
+    floored_number = floored_number.toFixed(decimal_places);
+
+    // replace '.' separator with ','
+    floored_number = floored_number.toString().replace('.', ',');
+    }
+
+    target.text('$' + floored_number);
+    }
+    },
+    20000
+    );
+</code></pre>
+        <p id="decimals">From $0,00 to $5,00</p>
+        <button id="decimals-run" style="margin-bottom: 50px;">Run example</button>
+        <script type="text/javascript">
+            $('#decimals-run').click(function(){
+                // how many decimal places allows
+                var decimal_places = 2;
+                var decimal_factor = decimal_places === 0 ? 1 : Math.pow(10, decimal_places);
+
+                $('#decimals')
+                        .animateNumber(
+                                {
+                                    number: 5 * decimal_factor,
+                                    numberStep: function(now, tween) {
+                                        var floored_number = Math.floor(now) / decimal_factor,
+                                                target = $(tween.elem);
+
+                                        if (decimal_places > 0) {
+                                            // force decimal places even if they are 0
+                                            floored_number = floored_number.toFixed(decimal_places);
+
+                                            // replace '.' separator with ','
+                                            floored_number = floored_number.toString().replace('.', ',');
+                                        }
+
+                                        target.text('$' + floored_number);
+                                    }
+                                },
+                                20000
+                        );
+                return false;
+            });
+        </script>
+
+        <h3><a name="example-7" class="anchor" href="#example-7"><span class="octicon octicon-link"></span></a>Example 7: 倒计时，以下代码为从10倒数到0</h3>
+<pre><code>&lt;p id="revese-countdown"&gt;10&lt;/p&gt;
+
+    $('#revese-countdown')
+    .prop('number', 10)
+    .animateNumber(
+    {
+    number: 0,
+    numberStep: function(now, tween) {
+    var target = $(tween.elem),
+    rounded_now = Math.round(now);
+
+    target.text(now === tween.end ? 'Launch!' : rounded_now);
+    }
+    },
+    10000,
+    'linear'
+    );
+
+</code></pre>
+        <p id="revese-countdown">10</p>
+        <button id="revese-countdown-run">Run example</button>
+        <script type="text/javascript">
+            $('#revese-countdown-run').click(function(){
+                // how many decimal places allows
+                $('#revese-countdown')
+                        .prop('number', 10)
+                        .animateNumber(
+                                {
+                                    number: 0,
+                                    numberStep: function(now, tween) {
+                                        var target = $(tween.elem),
+                                                rounded_now = Math.round(now);
+
+                                        target.text(rounded_now === tween.end ? 'Launch!' : rounded_now);
+                                    }
+                                },
+                                10000,
+                                'linear'
+                        );
+                return false;
+            });
+        </script>
+    </section>
+
+    <section>
+        <h3><a name="example-8" class="anchor" href="#example-8"><span class="octicon octicon-link"></span></a>Example 8: 动画以后回调</h3>
+<pre><code>&lt;p id="countdown"&gt;10&lt;/p&gt;
+
+    $('#countdown')
+    .animateNumber(
+    {
+    number: 10
+    },
+    'normal',
+    function() {
+    $('#countdown').text('Countdown completed!')
+    }
+    );
+
+</code></pre>
+        <p id="countdown">0</p>
+        <button id="countdown-complete-run">Run example</button>
+        <script type="text/javascript">
+            $('#countdown-complete-run').click(function(){
+                // how many decimal places allows
+                $('#countdown')
+                        .animateNumber(
+                                {
+                                    number: 10
+                                },
+                                'normal',
+                                function(){
+                                    $('#countdown').text('Countdown completed!')
+                                }
+                        );
+                return false;
+            });
+        </script>
+    </section>
+
+    <section>
+        <h3><a name="example-9" class="anchor" href="#example-9"><span class="octicon octicon-link"></span></a>Example 9: 选中复选框动画</h3>
+<pre><code>&lt;p&gt;
+    &lt;label&gt;&lt;input type="checkbox" id="checkbox"&gt; use max power&lt;/label&gt;
+    &lt;br&gt;
+    Power: &lt;span id="power"&gt;10&lt;/span&gt;%
+    &lt;/p&gt;
+
+    &lt;script type="text/javascript"&gt;
+    var numberStep = function(now, tween) {
+    var target = $(tween.elem),
+    rounded_now = Math.round(now);
+
+    target.prop('number', rounded_now).text(rounded_now);
+    };
+
+    var use_max_power = $('#checkbox');
+    use_max_power.click(function(){
+    if ( use_max_power.is(':checked') ) {
+    $('#power').stop().animateNumber({
+    number: 100,
+    numberStep: numberStep
+    }, 5000);
+    }
+    else {
+    $('#power').stop().animateNumber({
+    number: 10,
+    numberStep: numberStep
+    }, 5000);
+    }
+    });
+    &lt;/script&gt;
+</code></pre>
+        <p>
+            <label><input type="checkbox" id="checkbox"> use max power</label>
+            <br>
+            Power: <span id="power">10</span>%
+        </p>
+        <script type="text/javascript">
+            var numberStep = function(now, tween) {
+                var target = $(tween.elem),
+                        rounded_now = Math.round(now);
+
+                target.prop('number', rounded_now).text(rounded_now);
+            };
+
+            var use_max_power = $('#checkbox');
+            use_max_power.click(function(){
+                if ( use_max_power.is(':checked') ) {
+                    $('#power').stop().animateNumber({
+                        number: 100,
+                        numberStep: numberStep
+                    }, 5000);
+                }
+                else {
+                    $('#power').stop().animateNumber({
+                        number: 10,
+                        numberStep: numberStep
+                    }, 5000);
+                }
+            });
+        </script>
+    </section>
+    <section>
+        <h3><a name="example-10" class="anchor" href="#example-9"><span class="octicon octicon-link"></span></a>Example 10: 从占位符0到有数字的动画</h3>
+<pre><code>&lt;p&gt;
+    Signatures gathered: &lt;span id="signatures"&gt;000000&lt;/span&gt;
+    &lt;br&gt;
+    &lt;button id="start-campaign"&gt;Start campaign&lt;/button&gt;
+    &lt;/p&gt;
+
+    &lt;script type="text/javascript"&gt;
+    var max_number = 100000;
+
+    var padding_zeros = '';
+    for(var i = 0, l = max_number.toString().length; i < l; i++) {
+    padding_zeros += '0';
+    }
+
+    var padded_now, numberStep = function(now, tween) {
+    var target = $(tween.elem),
+    rounded_now = Math.round(now);
+
+    var rounded_now_string = rounded_now.toString()
+    padded_now = padding_zeros + rounded_now_string;
+    padded_now = padded_now.substring(rounded_now_string.length);
+
+    target.prop('number', rounded_now).text(padded_now);
+    };
+
+    var use_max_power = $('#checkbox');
+    $('#start-campaign').click(function(){
+    $('#signatures').animateNumber({
+    number: max_number,
+    numberStep: numberStep
+    }, 5000);
+    });
+    &lt;/script&gt;
+</code></pre>
+        <p>
+            Signatures gathered: <span id="signatures">000000</span>
+            <br>
+            <button id="start-campaign">Start campaign</button>
+        </p>
+        <script type="text/javascript">
+            var max_number = 100000;
+
+            var padding_zeros = '';
+            for(var i = 0, l = max_number.toString().length; i < l; i++) {
+                padding_zeros += '0';
+            }
+
+            var padded_now, numberStep = function(now, tween) {
+                var target = $(tween.elem),
+                        rounded_now = Math.round(now);
+
+                var rounded_now_string = rounded_now.toString()
+                padded_now = padding_zeros + rounded_now_string;
+                padded_now = padded_now.substring(rounded_now_string.length);
+
+                target.prop('number', rounded_now).text(padded_now);
+            };
+
+            var use_max_power = $('#checkbox');
+            $('#start-campaign').click(function(){
+                $('#signatures').animateNumber({
+                    number: max_number,
+                    numberStep: numberStep
+                }, 5000);
+            });
+        </script>
+    </section>
+</div>
+
+</body>
+</html>
